@@ -178,12 +178,38 @@ class Application(Frame):
         args = [self.xml_value.get()]
         try:
             mavgen.mavgen(opts,args)
+            self.incrementDialectVersion()
             tkinter.messagebox.showinfo('Successfully Generated Headers', 'Headers generated successfully.')
 
         except Exception as ex:
             exStr = formatErrorMessage(str(ex));
             tkinter.messagebox.showerror('Error Generating Headers','{0!s}'.format(exStr))
             return
+
+    """\
+    Increment dialect version.
+    """
+    def incrementDialectVersion(self):
+        versionPath = "dialect_version/dialect_version.h"
+
+        try:
+            with open(versionPath, "r") as file:
+                content = file.read()
+
+            match = re.search(r"#define\s+DIALECT_VERSION\s+([0-9.]+)", content)
+            if match:
+                oldVersion = float(match.group(1))
+                newVersion = oldVersion + 1.0
+                newContent = re.sub(r"#define\s+DIALECT_VERSION\s+[0-9.]+",
+                                    f"#define DIALECT_VERSION {newVersion:.1f}",
+                                    content)
+
+                with open(versionPath, "w") as f:
+                    f.write(newContent)
+            else:
+                raise "DIALECT_VERSION not found"
+        except Exception as ex:
+            tkinter.messagebox.showerror('Error incrementing dialect version', '{0!s}'.format(ex))
 
 """\
 Format the mavgen exceptions by removing 'ERROR: '.
