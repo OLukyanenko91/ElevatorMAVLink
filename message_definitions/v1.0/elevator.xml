@@ -25,15 +25,19 @@
         <description>Call from floor command.</description>
         <param index="1" label="Floor number" minValue="0">Number of floor.</param>
       </entry>
+      <entry value="40003" name="MAV_CMD_REQUEST_VERSION">
+        <description>Request version.</description>
+      </entry>
     </enum>
   </enums>
   <messages>
     <!-- #############################
     MESSAGES
     ############################# -->
-    <message id="60010" name="ELEVATOR_INFORMATION">
-      <description>Some description.</description>
-      <field type="uint8_t" name="gimbal_id" instance="true">Description.</field>
+    <message id="60001" name="VERSION_RESPONSE">
+      <description>Response to version request.</description>
+      <field type="char[10]" name="sw_version">Software version.</field>
+      <field type="char[10]" name="mavlink_dialect_version">MAVLink dialect version.</field>
     </message>
   </messages>
 </mavlink>

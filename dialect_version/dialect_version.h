@@ -1,3 +1,3 @@
 #pragma once
 
-#define DIALECT_VERSION 1.0
+#define DIALECT_VERSION 2.0
